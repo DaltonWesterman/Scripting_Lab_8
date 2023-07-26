@@ -31,18 +31,24 @@ def get_married_couples():
     con = sqlite3.connect(db_path)
     cur = con.cursor()
 
-    all_relationships_query = """
+    married_couples_query = """
         SELECT person1.name, person2.name, start_date, type FROM relationships
         JOIN people person1 ON person1_id = person1.id
         JOIN people person2 ON person2_id = person2.id;
     """
 
-    cur.execute(all_relationships_query)
+    def print_name_and_age(name_and_age_list):
+        for person in name_and_age_list:
+            name, age = person
+        print(f"{name} is {age} years old.")
+
+    cur.execute(married_couples_query)
     
-    all_relationships = cur.fetchall()
+    married_couples = cur.fetchall()
     con.close()
 
-    for person1, person2, start_date, type in all_relationships:
+
+    for person1, person2, start_date, type in married_couples:
         print(f'{person1} has been a {type} of {person2} since {start_date}.')
 
     return
